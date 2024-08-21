@@ -1,9 +1,15 @@
 const morgan = require('morgan')
-
 express = require('express')
-app = express()
 dotenv = require('dotenv')
+mongoose = require('mongoose')
 dotenv.config({ path: 'config.env' })
+app = express()
+mongoose.connect(process.env.DB_URL).then((con) => {
+  console.log(`database connection syccessfully : ${con.connection.host}`)
+}).catch((error) => {
+  console.error(`database errors :${error}`)
+  process.exit(1)
+});
 
 if (process.env.NODE_ENV === 'developement') {
   app.use(morgan('dev'))
